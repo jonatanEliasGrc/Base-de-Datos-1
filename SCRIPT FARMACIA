@@ -1,0 +1,308 @@
+/*==============================================================*/
+/* DBMS name:      ORACLE Version 11g                           */
+/* Created on:     07/11/2018 19:11:48                          */
+/*==============================================================*/
+
+
+alter table CATEGORIAS
+   drop constraint FK_CATEGORI_REFERENCE_LABORATO;
+
+alter table CATEGORIAS
+   drop constraint FK_CATEGORI_REFERENCE_MEDICAME;
+
+alter table DETALLE_FACTURA
+   drop constraint FK_DETALLE__REFERENCE_MEDICAME;
+
+alter table DETALLE_FACTURA
+   drop constraint FK_DETALLE__REFERENCE_ENCA_FAC;
+
+alter table ESTANTES
+   drop constraint FK_ESTANTES_REFERENCE_CATEGORI;
+
+alter table MEDICAMENTOS
+   drop constraint FK_MEDICAME_REFERENCE_EXISTENC;
+
+alter table PACIENTES
+   drop constraint FK_PACIENTE_REFERENCE_RECETAS;
+
+alter table RECETAS
+   drop constraint FK_RECETAS_REFERENCE_MEDICAME;
+
+alter table TIPOS_DE_PAGO
+   drop constraint FK_TIPOS_DE_REFERENCE_DETALLE_;
+
+alter table TIPOS_USUARIOS
+   drop constraint FK_TIPOS_US_REFERENCE_FARMACEU;
+
+alter table TIPOS_USUARIOS
+   drop constraint FK_TIPOS_US_REFERENCE_USUARIOS;
+
+alter table TIPO_COMPONENTE
+   drop constraint FK_TIPO_COM_REFERENCE_MEDICAME;
+
+alter table TIPO_COMPONENTE
+   drop constraint FK_TIPO_COM_REFERENCE_COMPONEN;
+
+drop table CATEGORIAS cascade constraints;
+
+drop table COMPONENTES cascade constraints;
+
+drop table DETALLE_FACTURA cascade constraints;
+
+drop table ENCA_FACTURAS cascade constraints;
+
+drop table ESTANTES cascade constraints;
+
+drop table EXISTENCIAS cascade constraints;
+
+drop table FARMACEUTICOS cascade constraints;
+
+drop table LABORATORIO_PROVEEDOR cascade constraints;
+
+drop table MEDICAMENTOS cascade constraints;
+
+drop table PACIENTES cascade constraints;
+
+drop table RECETAS cascade constraints;
+
+drop table TIPOS_DE_PAGO cascade constraints;
+
+drop table TIPOS_USUARIOS cascade constraints;
+
+drop table TIPO_COMPONENTE cascade constraints;
+
+drop table USUARIOS cascade constraints;
+
+/*==============================================================*/
+/* Table: CATEGORIAS                                            */
+/*==============================================================*/
+create table CATEGORIAS 
+(
+   ID_CATEGORIA         INTEGER              not null,
+   ID_MEDICAMENTO       INTEGER,
+   ID_LBPROVEEDOR       INTEGER,
+   DESCRIPCION          VARCHAR2(65 CHAR),
+   constraint PK_CATEGORIAS primary key (ID_CATEGORIA)
+);
+
+/*==============================================================*/
+/* Table: COMPONENTES                                           */
+/*==============================================================*/
+create table COMPONENTES 
+(
+   ID_COMPONENTE        INTEGER              not null,
+   CMP_DESCRIPCION      VARCHAR2(65 CHAR),
+   constraint PK_COMPONENTES primary key (ID_COMPONENTE)
+);
+
+/*==============================================================*/
+/* Table: DETALLE_FACTURA                                       */
+/*==============================================================*/
+create table DETALLE_FACTURA 
+(
+   ID_FACTURA           INTEGER              not null,
+   ID_MEDICAMENTO       INTEGER,
+   CANTIDAD             INTEGER,
+   TOTAL_PRECIO         DECIMAL(4, 2),
+   constraint PK_DETALLE_FACTURA primary key (ID_FACTURA)
+);
+
+/*==============================================================*/
+/* Table: ENCA_FACTURAS                                         */
+/*==============================================================*/
+create table ENCA_FACTURAS 
+(
+   ID_FACTURA           INTEGER              not null,
+   SERIEFACTURA         VARCHAR(5),
+   FT_FECHA             DATE,
+   constraint PK_ENCA_FACTURAS primary key (ID_FACTURA)
+);
+
+/*==============================================================*/
+/* Table: ESTANTES                                              */
+/*==============================================================*/
+create table ESTANTES 
+(
+   ID_ESTANTE           INTEGER              not null,
+   ID_CATEGORIA         INTEGER,
+   ESTANTE              VARCHAR2(50 CHAR),
+   constraint PK_ESTANTES primary key (ID_ESTANTE)
+);
+
+/*==============================================================*/
+/* Table: EXISTENCIAS                                           */
+/*==============================================================*/
+create table EXISTENCIAS 
+(
+   ID_EXISTENCIAS       INTEGER              not null,
+   XT_CANTIDAD          INTEGER,
+   constraint PK_EXISTENCIAS primary key (ID_EXISTENCIAS)
+);
+
+/*==============================================================*/
+/* Table: FARMACEUTICOS                                         */
+/*==============================================================*/
+create table FARMACEUTICOS 
+(
+   ID_FARMACEUTICO      INTEGER              not null,
+   FR_NOMBRE            VARCHAR2(85 CHAR),
+   FR_APELLIDO          VARCHAR2(85 CHAR),
+   FR_DIRECCION         VARCHAR(100),
+   FR_TELEFONO          VARCHAR(20),
+   constraint PK_FARMACEUTICOS primary key (ID_FARMACEUTICO)
+);
+
+/*==============================================================*/
+/* Table: LABORATORIO_PROVEEDOR                                 */
+/*==============================================================*/
+create table LABORATORIO_PROVEEDOR 
+(
+   ID_LBPROVEEDOR       INTEGER              not null,
+   LB_NOMBRE            VARCHAR(85),
+   LB_DIRECCION         VARCHAR(100),
+   LB_TELEFONO          VARCHAR(20),
+   LB_PRECIOCOMPRA      DEC(6, 2),
+   LBFECHA_COMPRA       DATE,
+   constraint PK_LABORATORIO_PROVEEDOR primary key (ID_LBPROVEEDOR)
+);
+
+/*==============================================================*/
+/* Table: MEDICAMENTOS                                          */
+/*==============================================================*/
+create table MEDICAMENTOS 
+(
+   ID_MEDICAMENTO       INTEGER              not null,
+   ID_EXISTENCIAS       INTEGER,
+   MED_NOMBRE           VARCHAR2(50 CHAR),
+   MED_PRECIO           DECIMAL(4, 2),
+   FECHA_VENCIMIENTO    DATE,
+   constraint PK_MEDICAMENTOS primary key (ID_MEDICAMENTO)
+);
+
+/*==============================================================*/
+/* Table: PACIENTES                                             */
+/*==============================================================*/
+create table PACIENTES 
+(
+   ID_PACIENTE          INTEGER              not null,
+   ID_RECETA            INTEGER,
+   PCT_NOMBRE           VARCHAR2(65 CHAR),
+   PCT_APELLIDO         VARCHAR2(65 CHAR),
+   PCT_NO_DPI           INTEGER,
+   PCT_DIRECCION        VARCHAR(100),
+   PCT_TELEFONO         VARCHAR(20),
+   constraint PK_PACIENTES primary key (ID_PACIENTE)
+);
+
+/*==============================================================*/
+/* Table: RECETAS                                               */
+/*==============================================================*/
+create table RECETAS 
+(
+   ID_RECETA            INTEGER              not null,
+   ID_MEDICAMENTO       INTEGER,
+   RT_DESCRIPCION       VARCHAR(100),
+   constraint PK_RECETAS primary key (ID_RECETA)
+);
+
+/*==============================================================*/
+/* Table: TIPOS_DE_PAGO                                         */
+/*==============================================================*/
+create table TIPOS_DE_PAGO 
+(
+   ID_TIPOPAGO          INTEGER              not null,
+   ID_FACTURA           INTEGER,
+   TP_DESCRIPCION       VARCHAR2(50 CHAR),
+   constraint PK_TIPOS_DE_PAGO primary key (ID_TIPOPAGO)
+);
+
+/*==============================================================*/
+/* Table: TIPOS_USUARIOS                                        */
+/*==============================================================*/
+create table TIPOS_USUARIOS 
+(
+   ID_TIPOUSUARIO       INTEGER              not null,
+   ID_FARMACEUTICO      INTEGER,
+   ID_USUARIO           INTEGER,
+   TIPOUSUARIO          VARCHAR2(50 CHAR),
+   constraint PK_TIPOS_USUARIOS primary key (ID_TIPOUSUARIO)
+);
+
+/*==============================================================*/
+/* Table: TIPO_COMPONENTE                                       */
+/*==============================================================*/
+create table TIPO_COMPONENTE 
+(
+   ID_TIPOCOMPONENTE    INTEGER              not null,
+   ID_MEDICAMENTO       INTEGER,
+   ID_COMPONENTE        INTEGER,
+   TC_DESCRIPCION       VARCHAR2(50 CHAR),
+   constraint PK_TIPO_COMPONENTE primary key (ID_TIPOCOMPONENTE)
+);
+
+/*==============================================================*/
+/* Table: USUARIOS                                              */
+/*==============================================================*/
+create table USUARIOS 
+(
+   ID_USUARIO           INTEGER              not null,
+   USUARIO              VARCHAR(50),
+   CONTRASENA           VARCHAR(65),
+   constraint PK_USUARIOS primary key (ID_USUARIO)
+);
+
+alter table CATEGORIAS
+   add constraint FK_CATEGORI_REFERENCE_LABORATO foreign key (ID_LBPROVEEDOR)
+      references LABORATORIO_PROVEEDOR (ID_LBPROVEEDOR);
+
+alter table CATEGORIAS
+   add constraint FK_CATEGORI_REFERENCE_MEDICAME foreign key (ID_MEDICAMENTO)
+      references MEDICAMENTOS (ID_MEDICAMENTO);
+
+alter table DETALLE_FACTURA
+   add constraint FK_DETALLE__REFERENCE_MEDICAME foreign key (ID_MEDICAMENTO)
+      references MEDICAMENTOS (ID_MEDICAMENTO);
+
+alter table DETALLE_FACTURA
+   add constraint FK_DETALLE__REFERENCE_ENCA_FAC foreign key (ID_FACTURA)
+      references ENCA_FACTURAS (ID_FACTURA);
+
+alter table ESTANTES
+   add constraint FK_ESTANTES_REFERENCE_CATEGORI foreign key (ID_CATEGORIA)
+      references CATEGORIAS (ID_CATEGORIA);
+
+alter table MEDICAMENTOS
+   add constraint FK_MEDICAME_REFERENCE_EXISTENC foreign key (ID_EXISTENCIAS)
+      references EXISTENCIAS (ID_EXISTENCIAS);
+
+alter table PACIENTES
+   add constraint FK_PACIENTE_REFERENCE_RECETAS foreign key (ID_RECETA)
+      references RECETAS (ID_RECETA);
+
+alter table RECETAS
+   add constraint FK_RECETAS_REFERENCE_MEDICAME foreign key (ID_MEDICAMENTO)
+      references MEDICAMENTOS (ID_MEDICAMENTO);
+
+alter table TIPOS_DE_PAGO
+   add constraint FK_TIPOS_DE_REFERENCE_DETALLE_ foreign key (ID_FACTURA)
+      references DETALLE_FACTURA (ID_FACTURA);
+
+alter table TIPOS_USUARIOS
+   add constraint FK_TIPOS_US_REFERENCE_FARMACEU foreign key (ID_FARMACEUTICO)
+      references FARMACEUTICOS (ID_FARMACEUTICO);
+
+alter table TIPOS_USUARIOS
+   add constraint FK_TIPOS_US_REFERENCE_USUARIOS foreign key (ID_USUARIO)
+      references USUARIOS (ID_USUARIO);
+
+alter table TIPO_COMPONENTE
+   add constraint FK_TIPO_COM_REFERENCE_MEDICAME foreign key (ID_MEDICAMENTO)
+      references MEDICAMENTOS (ID_MEDICAMENTO);
+
+alter table TIPO_COMPONENTE
+   add constraint FK_TIPO_COM_REFERENCE_COMPONEN foreign key (ID_COMPONENTE)
+      references COMPONENTES (ID_COMPONENTE);
+
+
+SELECT * FROM MEDICAMENTOS;
+
