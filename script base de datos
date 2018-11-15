@@ -1,0 +1,697 @@
+
+
+/*==============================================================*/
+/* Table: ALTA                                                  */
+/*==============================================================*/
+create table ALTA 
+(
+   ID_ALTA              NUMBER(10)           not null,
+   ID_PACIENTE          NUMBER(10),
+   ID_MEDICO            NUMBER(10),
+   ESTADO               VARCHAR2(30),
+   FECHA_ALTA           DATE,
+   constraint PK_ALTA primary key (ID_ALTA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_22_FK                                       */
+/*==============================================================*/
+create index REFERENCE_22_FK on ALTA (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_23_FK                                       */
+/*==============================================================*/
+create index REFERENCE_23_FK on ALTA (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Table: BIOQUIMICA                                            */
+/*==============================================================*/
+create table BIOQUIMICA 
+(
+   ID_BIOQUIMICA        NUMBER(10)           not null,
+   ID_DETALLE_ORDEN     NUMBER,
+   ID_MEDICO            NUMBER(10),
+   ID_LABORATISTA       NUMBER(10),
+   GLUCOSA              VARCHAR2(30),
+   CREATININA           VARCHAR2(30),
+   ACIDO_URICO          VARCHAR2(30),
+   PROTEINA_TOTAL       VARCHAR2(30),
+   RELACION_AG          VARCHAR2(30),
+   TGO                  VARCHAR2(30),
+   TGP                  VARCHAR2(30),
+   COLESTEROL_TOTAL     VARCHAR2(30),
+   COLESTEROL_HD        VARCHAR2(30),
+   TRIGLICERIDOS        VARCHAR2(30),
+   OTROS                VARCHAR2(30),
+   REGISTRO             VARCHAR2(30),
+   constraint PK_BIOQUIMICA primary key (ID_BIOQUIMICA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_33_FK                                       */
+/*==============================================================*/
+create index REFERENCE_33_FK on BIOQUIMICA (
+   ID_DETALLE_ORDEN ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_34_FK                                       */
+/*==============================================================*/
+create index REFERENCE_34_FK on BIOQUIMICA (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_35_FK                                       */
+/*==============================================================*/
+create index REFERENCE_35_FK on BIOQUIMICA (
+   ID_LABORATISTA ASC
+);
+
+/*==============================================================*/
+/* Table: CITA                                                  */
+/*==============================================================*/
+create table CITA 
+(
+   ID_CITA              NUMBER(10)           not null,
+   ID_PACIENTE          NUMBER(10),
+   FECHA_CITA           VARCHAR2(30),
+   constraint PK_CITA primary key (ID_CITA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_12_FK                                       */
+/*==============================================================*/
+create index REFERENCE_12_FK on CITA (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Table: DETALLE_ORDEN                                         */
+/*==============================================================*/
+create table DETALLE_ORDEN 
+(
+   ID_DETALLE_ORDEN     NUMBER(10)           not null,
+   ID_ORDEN             NUMBER(10),
+   ID_EXAMEN            NUMBER(10),
+   constraint PK_DETALLE_ORDEN primary key (ID_DETALLE_ORDEN)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_14_FK                                       */
+/*==============================================================*/
+create index REFERENCE_14_FK on DETALLE_ORDEN (
+   ID_ORDEN ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_15_FK                                       */
+/*==============================================================*/
+create index REFERENCE_15_FK on DETALLE_ORDEN (
+   ID_EXAMEN ASC
+);
+
+/*==============================================================*/
+/* Table: DIAGNOSTICO                                           */
+/*==============================================================*/
+create table DIAGNOSTICO 
+(
+   ID_DIAGNOSTICO       NUMBER(10)           not null,
+   ID_CITA              NUMBER(10),
+   ID_ENFERMEDAD        NUMBER(10),
+   ID_INGRESO           NUMBER(10),
+   constraint PK_DIAGNOSTICO primary key (ID_DIAGNOSTICO)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_10_FK                                       */
+/*==============================================================*/
+create index REFERENCE_10_FK on DIAGNOSTICO (
+   ID_CITA ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_11_FK                                       */
+/*==============================================================*/
+create index REFERENCE_11_FK on DIAGNOSTICO (
+   ID_ENFERMEDAD ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_17_FK                                       */
+/*==============================================================*/
+create index REFERENCE_17_FK on DIAGNOSTICO (
+   ID_INGRESO ASC
+);
+
+/*==============================================================*/
+/* Table: ENFERMEDAD                                            */
+/*==============================================================*/
+create table ENFERMEDAD 
+(
+   ID_ENFERMEDAD        NUMBER(10)           not null,
+   NOMBRE_ENFERMEDAD    VARCHAR2(30),
+   constraint PK_ENFERMEDAD primary key (ID_ENFERMEDAD)
+);
+
+/*==============================================================*/
+/* Table: ENFERMERO                                             */
+/*==============================================================*/
+create table ENFERMERO 
+(
+   ID_ENFERMEDO         NUMBER(10)           not null,
+   ID_PERSONA           NUMBER(10),
+   constraint PK_ENFERMERO primary key (ID_ENFERMEDO)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_1_FK                                        */
+/*==============================================================*/
+create index REFERENCE_1_FK on ENFERMERO (
+   ID_PERSONA ASC
+);
+
+/*==============================================================*/
+/* Table: EXAMEN                                                */
+/*==============================================================*/
+create table EXAMEN 
+(
+   ID_EXAMEN            NUMBER(10)           not null,
+   ID_TIPOEXAMEN        NUMBER(10),
+   NOMBRE_EXAMEN        VARCHAR2(30),
+   PRECIO_EXAMEN        VARCHAR2(30),
+   constraint PK_EXAMEN primary key (ID_EXAMEN)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_16_FK                                       */
+/*==============================================================*/
+create index REFERENCE_16_FK on EXAMEN (
+   ID_TIPOEXAMEN ASC
+);
+
+/*==============================================================*/
+/* Table: EXAMEN_PACIENTE                                       */
+/*==============================================================*/
+create table EXAMEN_PACIENTE 
+(
+   ID_EXAMEN_PACIENTE   NUMBER(10)           not null,
+   ID_PACIENTE          NUMBER(10),
+   ID_EXAMEN            NUMBER(10),
+   FECHA_EXAMEN         TIMESTAMP,
+   DESC_EXAMEN_PACIENTE VARCHAR2(30),
+   constraint PK_EXAMEN_PACIENTE primary key (ID_EXAMEN_PACIENTE)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_5_FK                                        */
+/*==============================================================*/
+create index REFERENCE_5_FK on EXAMEN_PACIENTE (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_6_FK                                        */
+/*==============================================================*/
+create index REFERENCE_6_FK on EXAMEN_PACIENTE (
+   ID_EXAMEN ASC
+);
+
+/*==============================================================*/
+/* Table: HECES                                                 */
+/*==============================================================*/
+create table HECES 
+(
+   ID_HECES             NUMBER               not null,
+   ID_LABORATISTA       NUMBER(10),
+   ID_DETALLE_ORDEN     NUMBER,
+   ID_MEDICO            NUMBER(10),
+   COLOR                VARCHAR2(30),
+   ASPECTO              VARCHAR2(30),
+   PARASITOS            VACHAR30,
+   GRASAS               VARCHAR2(30),
+   CELVEGETALES         VARCHAR2(30%,
+   JABONES              VARCHAR2(30),
+   ALMIDON              VARCHAR2(30),
+   LEVADURA             VARCHAR2(30),
+   ENTRECITOS           VARCHAR2(30),
+   LEUCOCITOS           VARCHAR2(30),
+   MOCO                 VARCHAR2(30),
+   BACTERIAS            VARCHAR2(30),
+   OTROS                VARCHAR2(30),
+   REGISTRO             VARCHAR2(30),
+   constraint PK_HECES primary key (ID_HECES)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_24_FK                                       */
+/*==============================================================*/
+create index REFERENCE_24_FK on HECES (
+   ID_LABORATISTA ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_25_FK                                       */
+/*==============================================================*/
+create index REFERENCE_25_FK on HECES (
+   ID_DETALLE_ORDEN ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_26_FK                                       */
+/*==============================================================*/
+create index REFERENCE_26_FK on HECES (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Table: HEMATOLOGIA                                           */
+/*==============================================================*/
+create table HEMATOLOGIA 
+(
+   ID_HEMATOLIGIA       NUMBER(10)           not null,
+   ID_DETALLE_ORDEN     NUMBER,
+   ID_LABORATISTA       NUMBER(10),
+   ID_MEDICO            NUMBER(10),
+   HEMOGLOBINA          VARCHAR2(30),
+   GRUPO                VARCHAR2(30),
+   FACTOR               VARCHAR2(30),
+   COLUMN_5             VARCHAR2(30),
+   constraint PK_HEMATOLOGIA primary key (ID_HEMATOLIGIA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_30_FK                                       */
+/*==============================================================*/
+create index REFERENCE_30_FK on HEMATOLOGIA (
+   ID_DETALLE_ORDEN ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_31_FK                                       */
+/*==============================================================*/
+create index REFERENCE_31_FK on HEMATOLOGIA (
+   ID_LABORATISTA ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_32_FK                                       */
+/*==============================================================*/
+create index REFERENCE_32_FK on HEMATOLOGIA (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Table: INGRESO                                               */
+/*==============================================================*/
+create table INGRESO 
+(
+   ID_INGRESO           NUMBER(10)           not null,
+   ID_PACIENTE          NUMBER(10),
+   ID_MEDICO            NUMBER(10),
+   FECHA_INGRESO        VARCHAR2(30),
+   NO_CAMA              VARCHAR2(30),
+   constraint PK_INGRESO primary key (ID_INGRESO)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_18_FK                                       */
+/*==============================================================*/
+create index REFERENCE_18_FK on INGRESO (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_19_FK                                       */
+/*==============================================================*/
+create index REFERENCE_19_FK on INGRESO (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Table: LABORATORISTA                                         */
+/*==============================================================*/
+create table LABORATORISTA 
+(
+   ID_LABORATISTA       NUMBER(10)           not null,
+   ID_PERSONA           NUMBER(10),
+   constraint PK_LABORATORISTA primary key (ID_LABORATISTA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_3_FK                                        */
+/*==============================================================*/
+create index REFERENCE_3_FK on LABORATORISTA (
+   ID_PERSONA ASC
+);
+
+/*==============================================================*/
+/* Table: MEDICAMENTO                                           */
+/*==============================================================*/
+create table MEDICAMENTO 
+(
+   ID_MEDICAMENTO       NUMBER(10)           not null,
+   NOMBRE_MEDICAMENTO   VARCHAR2(30),
+   PRECIO_MEDICAMENTO   VARCHAR2(30),
+   constraint PK_MEDICAMENTO primary key (ID_MEDICAMENTO)
+);
+
+/*==============================================================*/
+/* Table: MEDICO                                                */
+/*==============================================================*/
+create table MEDICO 
+(
+   ID_MEDICO            NUMBER(10)           not null,
+   ID_PERSONA           NUMBER(10),
+   constraint PK_MEDICO primary key (ID_MEDICO)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_4_FK                                        */
+/*==============================================================*/
+create index REFERENCE_4_FK on MEDICO (
+   ID_PERSONA ASC
+);
+
+/*==============================================================*/
+/* Table: ORDEN                                                 */
+/*==============================================================*/
+create table ORDEN 
+(
+   ID_ORDEN             NUMBER(10)           not null,
+   ID_PACIENTE          NUMBER(10),
+   FECHA                DATE,
+   NO_RECIBO            VARCHAR2(30),
+   TOTAL_ORDEN          VARCHAR2(30),
+   constraint PK_ORDEN primary key (ID_ORDEN)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_13_FK                                       */
+/*==============================================================*/
+create index REFERENCE_13_FK on ORDEN (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Table: ORINA                                                 */
+/*==============================================================*/
+create table ORINA 
+(
+   ID_ORINA             NUMBER(10)           not null,
+   ID_LABORATISTA       NUMBER(10),
+   ID_MEDICO            NUMBER(10),
+   ID_DETALLE_ORDEN     NUMBER,
+   COLOR_ORINA          VARCHAR2(30),
+   ASPECTO_ORINA        VARCHAR2(30),
+   DENSIDAD_ORINA       VARCHAR2(30),
+   PH_ORINA             VARCHAR2(30),
+   QUIMICO_ORINA        VARCHAR2(30),
+   BACTERIAS_ORINA      VARCHAR2(30),
+   LEVADURAS_ORINA      VARCHAR2(30),
+   CRISTALES_ORINA      VARCHAR2(30),
+   ERITROCITOS_ORINA    VARCHAR2(30),
+   LEUCOCITOS_ORINA     VARCHAR2(30),
+   CILINDROS_ORINA      VARCHAR2(30),
+   OTROS                VARCHAR2(30),
+   REGISTRO_ORINA       VARCHAR2(30),
+   constraint PK_ORINA primary key (ID_ORINA)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_27_FK                                       */
+/*==============================================================*/
+create index REFERENCE_27_FK on ORINA (
+   ID_LABORATISTA ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_28_FK                                       */
+/*==============================================================*/
+create index REFERENCE_28_FK on ORINA (
+   ID_MEDICO ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_29_FK                                       */
+/*==============================================================*/
+create index REFERENCE_29_FK on ORINA (
+   ID_DETALLE_ORDEN ASC
+);
+
+/*==============================================================*/
+/* Table: PACIENTE                                              */
+/*==============================================================*/
+create table PACIENTE 
+(
+   ID_PACIENTE          NUMBER(10)           not null,
+   ID_PERSONA           NUMBER(10),
+   constraint PK_PACIENTE primary key (ID_PACIENTE)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_2_FK                                        */
+/*==============================================================*/
+create index REFERENCE_2_FK on PACIENTE (
+   ID_PERSONA ASC
+);
+
+/*==============================================================*/
+/* Table: PERSONA                                               */
+/*==============================================================*/
+create table PERSONA 
+(
+   ID_PERSONA           NUMBER(10)           not null,
+   NOMBRE_PERSONA       VARCHAR2(30),
+   APELLIDO__PERSONA    VARCHAR2(30),
+   FECHA_NAC            VARCHAR2(30),
+   TELEFONO             VARCHAR2(30),
+   constraint PK_PERSONA primary key (ID_PERSONA)
+);
+
+/*==============================================================*/
+/* Table: REQUISICION                                           */
+/*==============================================================*/
+create table REQUISICION 
+(
+   ID_REQUISICION       NUMBER(10)           not null,
+   ID_MEDICAMENTO       NUMBER(10),
+   ID_ENFERMEDO         NUMBER(10),
+   ID_PACIENTE          NUMBER(10),
+   CANTIDAD             NUMBER(10),
+   constraint PK_REQUISICION primary key (ID_REQUISICION)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_7_FK                                        */
+/*==============================================================*/
+create index REFERENCE_7_FK on REQUISICION (
+   ID_MEDICAMENTO ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_8_FK                                        */
+/*==============================================================*/
+create index REFERENCE_8_FK on REQUISICION (
+   ID_ENFERMEDO ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_9_FK                                        */
+/*==============================================================*/
+create index REFERENCE_9_FK on REQUISICION (
+   ID_PACIENTE ASC
+);
+
+/*==============================================================*/
+/* Table: TIPO_EXAMEN                                           */
+/*==============================================================*/
+create table TIPO_EXAMEN 
+(
+   ID_TIPOEXAMEN        NUMBER(10)           not null,
+   NOM_TIPO_EXAMEN      VARCHAR2(30),
+   DESC_TIPO_EXAMEN     VARCHAR2(30),
+   constraint PK_TIPO_EXAMEN primary key (ID_TIPOEXAMEN)
+);
+
+/*==============================================================*/
+/* Table: TIPO_TRATAMIENTO                                      */
+/*==============================================================*/
+create table TIPO_TRATAMIENTO 
+(
+   ID_TIPO_TRATAMIENTO  NUMBER(10)           not null,
+   NOMBRE_TIPO_TRATAMIENTO VARCHAR2(30),
+   constraint PK_TIPO_TRATAMIENTO primary key (ID_TIPO_TRATAMIENTO)
+);
+
+/*==============================================================*/
+/* Table: TRATAMIENTO                                           */
+/*==============================================================*/
+create table TRATAMIENTO 
+(
+   ID_TRATAMIENTO       NUMBER(10)           not null,
+   ID_TIPO_TRATAMIENTO  NUMBER(10),
+   ID_INGRESO           NUMBER(10),
+   FECHA_INICIO_TRATAMIENTO VARCHAR2(30),
+   FECHA_FIN_TRATAMIENTO VARCHAR2(30),
+   constraint PK_TRATAMIENTO primary key (ID_TRATAMIENTO)
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_20_FK                                       */
+/*==============================================================*/
+create index REFERENCE_20_FK on TRATAMIENTO (
+   ID_TIPO_TRATAMIENTO ASC
+);
+
+/*==============================================================*/
+/* Index: REFERENCE_21_FK                                       */
+/*==============================================================*/
+create index REFERENCE_21_FK on TRATAMIENTO (
+   ID_INGRESO ASC
+);
+
+alter table ALTA
+   add constraint FK_ALTA_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table ALTA
+   add constraint FK_ALTA_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table BIOQUIMICA
+   add constraint FK_BIOQUIMI_REFERENCE_DETALLE_ foreign key (ID_DETALLE_ORDEN)
+      references DETALLE_ORDEN (ID_DETALLE_ORDEN);
+
+alter table BIOQUIMICA
+   add constraint FK_BIOQUIMI_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table BIOQUIMICA
+   add constraint FK_BIOQUIMI_REFERENCE_LABORATO foreign key (ID_LABORATISTA)
+      references LABORATORISTA (ID_LABORATISTA);
+
+alter table CITA
+   add constraint FK_CITA_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table DETALLE_ORDEN
+   add constraint FK_DETALLE__REFERENCE_ORDEN foreign key (ID_ORDEN)
+      references ORDEN (ID_ORDEN);
+
+alter table DETALLE_ORDEN
+   add constraint FK_DETALLE__REFERENCE_EXAMEN foreign key (ID_EXAMEN)
+      references EXAMEN (ID_EXAMEN);
+
+alter table DIAGNOSTICO
+   add constraint FK_DIAGNOST_REFERENCE_CITA foreign key (ID_CITA)
+      references CITA (ID_CITA);
+
+alter table DIAGNOSTICO
+   add constraint FK_DIAGNOST_REFERENCE_ENFERMED foreign key (ID_ENFERMEDAD)
+      references ENFERMEDAD (ID_ENFERMEDAD);
+
+alter table DIAGNOSTICO
+   add constraint FK_DIAGNOST_REFERENCE_INGRESO foreign key (ID_INGRESO)
+      references INGRESO (ID_INGRESO);
+
+alter table ENFERMERO
+   add constraint FK_ENFERMER_REFERENCE_PERSONA foreign key (ID_PERSONA)
+      references PERSONA (ID_PERSONA);
+
+alter table EXAMEN
+   add constraint FK_EXAMEN_REFERENCE_TIPO_EXA foreign key (ID_TIPOEXAMEN)
+      references TIPO_EXAMEN (ID_TIPOEXAMEN);
+
+alter table EXAMEN_PACIENTE
+   add constraint FK_EXAMEN_P_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table EXAMEN_PACIENTE
+   add constraint FK_EXAMEN_P_REFERENCE_EXAMEN foreign key (ID_EXAMEN)
+      references EXAMEN (ID_EXAMEN);
+
+alter table HECES
+   add constraint FK_HECES_REFERENCE_LABORATO foreign key (ID_LABORATISTA)
+      references LABORATORISTA (ID_LABORATISTA);
+
+alter table HECES
+   add constraint FK_HECES_REFERENCE_DETALLE_ foreign key (ID_DETALLE_ORDEN)
+      references DETALLE_ORDEN (ID_DETALLE_ORDEN);
+
+alter table HECES
+   add constraint FK_HECES_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table HEMATOLOGIA
+   add constraint FK_HEMATOLO_REFERENCE_DETALLE_ foreign key (ID_DETALLE_ORDEN)
+      references DETALLE_ORDEN (ID_DETALLE_ORDEN);
+
+alter table HEMATOLOGIA
+   add constraint FK_HEMATOLO_REFERENCE_LABORATO foreign key (ID_LABORATISTA)
+      references LABORATORISTA (ID_LABORATISTA);
+
+alter table HEMATOLOGIA
+   add constraint FK_HEMATOLO_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table INGRESO
+   add constraint FK_INGRESO_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table INGRESO
+   add constraint FK_INGRESO_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table LABORATORISTA
+   add constraint FK_LABORATO_REFERENCE_PERSONA foreign key (ID_PERSONA)
+      references PERSONA (ID_PERSONA);
+
+alter table MEDICO
+   add constraint FK_MEDICO_REFERENCE_PERSONA foreign key (ID_PERSONA)
+      references PERSONA (ID_PERSONA);
+
+alter table ORDEN
+   add constraint FK_ORDEN_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table ORINA
+   add constraint FK_ORINA_REFERENCE_LABORATO foreign key (ID_LABORATISTA)
+      references LABORATORISTA (ID_LABORATISTA);
+
+alter table ORINA
+   add constraint FK_ORINA_REFERENCE_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO);
+
+alter table ORINA
+   add constraint FK_ORINA_REFERENCE_DETALLE_ foreign key (ID_DETALLE_ORDEN)
+      references DETALLE_ORDEN (ID_DETALLE_ORDEN);
+
+alter table PACIENTE
+   add constraint FK_PACIENTE_REFERENCE_PERSONA foreign key (ID_PERSONA)
+      references PERSONA (ID_PERSONA);
+
+alter table REQUISICION
+   add constraint FK_REQUISIC_REFERENCE_MEDICAME foreign key (ID_MEDICAMENTO)
+      references MEDICAMENTO (ID_MEDICAMENTO);
+
+alter table REQUISICION
+   add constraint FK_REQUISIC_REFERENCE_ENFERMER foreign key (ID_ENFERMEDO)
+      references ENFERMERO (ID_ENFERMEDO);
+
+alter table REQUISICION
+   add constraint FK_REQUISIC_REFERENCE_PACIENTE foreign key (ID_PACIENTE)
+      references PACIENTE (ID_PACIENTE);
+
+alter table TRATAMIENTO
+   add constraint FK_TRATAMIE_REFERENCE_TIPO_TRA foreign key (ID_TIPO_TRATAMIENTO)
+      references TIPO_TRATAMIENTO (ID_TIPO_TRATAMIENTO);
+
+alter table TRATAMIENTO
+   add constraint FK_TRATAMIE_REFERENCE_INGRESO foreign key (ID_INGRESO)
+      references INGRESO (ID_INGRESO);
+
