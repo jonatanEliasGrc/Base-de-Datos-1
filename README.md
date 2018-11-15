@@ -1,2 +1,2 @@
-# Base-de-Datos-1
+# Base de Datos 1
 app, script sql, diagrama ER
